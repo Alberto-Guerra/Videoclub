@@ -1,0 +1,74 @@
+
+
+<mat-drawer-container class="wrapper">
+
+        
+    <mat-drawer #drawer >
+        <div class="filterAside">
+            <div class="filter-container">
+            <label for="category">Category:</label>
+            <select id="category" name="category" [(ngModel)]="categoryToFilter" (change)="updateCategory()">
+                <option [value]="'All'">All</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+            </div>
+            <div class="filter-container">
+                <label for="status">State:</label>
+                <select id="status" name="status" [(ngModel)]="stateToFilter" (change)="updateState()">
+                <option value="All">All</option>
+                <option value="Available">Available</option>
+                <option value="Rented">Rented</option>
+                </select>
+            </div>
+        </div>
+    </mat-drawer>
+        
+
+    <main>
+    <div class="filters">
+        <button (click)="drawer.toggle()"><mat-icon  aria-hidden="false" aria-label="Example home icon" fontIcon="filter_list"></mat-icon>
+        </button>
+        <div class="search">
+        <mat-icon class="no-hover" aria-hidden="false" aria-label="search icon" fontIcon="search"></mat-icon>
+        <input type="text" [(ngModel)] = "textToFind" (input)="updateText()">
+        <button (click)="textToFind = ''; updateText()"><mat-icon *ngIf="textToFind != ''" aria-hidden="false" aria-label="clear" fontIcon="clear"></mat-icon></button>
+        </div>
+        
+    </div>
+    <div class="movieList">
+        <a *ngFor="let movie of Movies" [routerLink]="['/movies', movie.id]">
+            <div class="card">
+                <div class="card-img">
+                    <img src="{{movie.photoURL}}">
+                </div>
+                <div class="card-info">
+                    <div class="title-container">
+                        <h2>{{movie.title}}</h2>
+                    </div>
+                    <div class="label-container">
+                        <p class="label" [ngStyle]="{'background-color': (movie.state=='Available') ? '#799163' : '#AB3131'}">
+                        {{movie.state}}</p>
+                    </div>
+                </div>
+                
+            </div>
+        </a>
+        <a [routerLink]="['/movies/add']">
+        <div class="card" *ngIf="editMode">
+
+            <div class="card-img">
+                
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="add_circle"></mat-icon>
+                
+            </div>
+            <div class="card-new">
+                <h2>Add new movie</h2>
+            </div>
+        </div>
+        </a>
+    </div>
+    </main>
+
+</mat-drawer-container>
+
+

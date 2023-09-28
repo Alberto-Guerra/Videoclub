@@ -1,0 +1,46 @@
+
+<div class="wrapper">
+
+
+<ng-container *ngIf="movie$ | async as movie; else notFound">
+    <div class="movie-details">
+        
+        <div class="movie-image">
+          <img [src]="getUrl(movie)" alt="{{movie.title}}">
+        </div>
+        
+        <div class="movie-info">
+            <div class="movie-title">
+                <button (click)="goBack()" ><mat-icon class="hoverable"  fontIcon="arrow_back_ios"></mat-icon></button>
+                <h2>{{movie.title}}</h2>
+                <p class="label" [ngClass]="movie.state === 'Available' ? 'available' : 'not-available'">{{movie.state}}</p>
+                
+            </div>
+            <p *ngIf="movie.state !== 'Available'">{{getRentedText(movie)}} {{movie.rent_date | date:'medium'}}</p>
+            <div class="edit-panel">
+              <button (click)="editMovie(movie)" *ngIf="editMode"><mat-icon class="hoverable" fontIcon="edit"></mat-icon></button>
+              <button (click)="deleteMovie(movie)" *ngIf="editMode"><mat-icon class="hoverable" fontIcon="delete"></mat-icon></button>
+            </div>
+          <p><strong>Category:</strong> {{movie.category}}</p>
+          <p><strong>Description:</strong> {{movie.description}}</p>
+          <div class="movie-actions" *ngIf="isAuthenticated">
+            <button class="action" (click)="rentMovie(movie)" *ngIf="movie.state === 'Available'"> <mat-icon fontIcon="add"></mat-icon> Rent</button>
+            <button class="action" (click)="returnMovie(movie.id!)" *ngIf="movie.state !== 'Available' && sameUser(movie)" >  <mat-icon fontIcon="arrow_back"></mat-icon> Return</button>
+            </div>
+        </div>
+        
+
+       
+    </div>
+
+
+</ng-container>
+
+
+
+
+<ng-template #notFound>
+    <h2>Movie not found</h2>
+</ng-template>
+
+</div>

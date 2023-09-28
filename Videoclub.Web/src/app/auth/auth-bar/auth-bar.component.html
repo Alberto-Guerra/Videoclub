@@ -1,0 +1,21 @@
+<div class="wrapper">
+<div class="registered" *ngIf="isAuthenticated; else anonymous">
+    <div style="display: flex; align-items: baseline; gap: 10px;">
+        <p style="margin:0; font-weight: 600;">Edit Mode:</p>
+    <mat-slide-toggle color="warn" (change)="toggleEditMode()" [(ngModel)]="editMode"></mat-slide-toggle>
+    
+    </div>
+    <div class="user">
+        <h3>{{username}}</h3>
+        <span>&#124;</span> 
+        <button (click)="logout()">Logout</button>
+    </div>
+</div>
+
+<ng-template #anonymous>
+    <div class="anonymous">
+        <a [routerLink]="['/login']">Login</a>
+        <a [routerLink]="['/register']">Register</a>
+    </div>
+</ng-template>
+</div>

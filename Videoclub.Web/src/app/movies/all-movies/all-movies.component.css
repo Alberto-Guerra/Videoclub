@@ -1,0 +1,226 @@
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.wrapper {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--background-color);
+
+}
+
+
+
+mat-icon {
+    color: var(--text-color);
+}
+
+mat-icon:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+
+
+.search{
+    width: 100%;
+    display: flex; 
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.filters{
+    display: flex;
+    justify-content: space-around;
+     width: 100%;
+    
+}
+
+input {
+    background-color: var(--text-color);
+    color: var(--background-color);
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.no-hover:hover {
+    cursor: default;
+    color: var(--text-color);
+}
+
+mat-drawer {
+    width: 200px;
+    left: 0;
+    overflow-y:hidden ;
+}
+
+.filterAside {
+    background-color: var(--background-color);
+    color: var(--text-color);
+   
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 50px;
+
+    padding: 0 20px;
+
+}
+
+
+
+.filterAside > .filter-container {
+
+    display: flex;
+    flex-direction: column;
+
+    width: 90%;
+
+    font-size: 1.2em;
+    gap: 10px;
+
+}
+
+    .filter-container > label {
+        font-weight: 600;
+    }
+
+    .filter-container > select {
+        width: 50%;
+        background-color: transparent;
+        color: var(--text-color);
+        border: 1px solid var(--text-color);
+        
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .filter-container > select option {
+        background-color: var(--background-color);
+
+    }
+
+
+
+main {
+    
+    width: 70vw;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    overflow-x: hidden;
+
+}
+
+.movieList{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+}
+
+.card{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    width: 250px;
+    height: 400px;
+    margin: 20px 0 ;
+    box-shadow: 0 4px 8px 0 rgb(250, 240, 230, 0.4);
+
+    border-radius: 3px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 8px 0 rgb(250, 240, 230, 0.8);
+    cursor: pointer;
+
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.card-info{
+    font-size: 0.8em;
+    padding: 0 10px ;
+    
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+}
+
+.card-new{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+    .card-info > .title-container{
+        width: 60%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+    }
+
+    .card-info > .label-container {
+
+        width: 40%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+
+        .label-container > .label {
+            color: var(--text-color);
+            padding: 5px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 1.2em;
+        }
+
+
+
+.card-img {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}

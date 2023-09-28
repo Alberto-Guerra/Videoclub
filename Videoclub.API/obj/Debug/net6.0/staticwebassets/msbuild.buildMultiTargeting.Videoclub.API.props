@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Videoclub.API.props" />
+</Project>

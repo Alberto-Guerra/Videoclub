@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "title": "The Lost Treasure",
+        "description": "An action-packed adventure",
+        "category": "Action",
+        "imageURL": "https://example.com/movie1.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 2,
+        "title": "Eternal Echoes",
+        "description": "A gripping drama unfolding",
+        "category": "Drama",
+        "imageURL": "https://example.com/movie2.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 3,
+        "title": "Laugh Out Loud",
+        "description": "A hilarious comedy experience",
+        "category": "Comedy",
+        "imageURL": "https://example.com/movie3.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 4,
+        "title": "The Haunting Shadows",
+        "description": "A terrifying thriller",
+        "category": "Terror",
+        "imageURL": "https://example.com/movie4.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 5,
+        "title": "Uncharted Waters",
+        "description": "An action-packed adventure",
+        "category": "Action",
+        "imageURL": "https://example.com/movie5.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 6,
+        "title": "Fading Memories",
+        "description": "A gripping drama unfolding",
+        "category": "Drama",
+        "imageURL": "https://example.com/movie6.jpg",
+        "state": "Rented"
+    },
+    {
+        "id": 7,
+        "title": "Crazy Antics",
+        "description": "A hilarious comedy experience",
+        "category": "Comedy",
+        "imageURL": "https://example.com/movie7.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 8,
+        "title": "Dark Secrets",
+        "description": "A terrifying thriller",
+        "category": "Terror",
+        "imageURL": "https://example.com/movie8.jpg",
+        "state": "Rented"
+    },
+    {
+        "id": 9,
+        "title": "Mystic Quest",
+        "description": "An action-packed adventure",
+        "category": "Action",
+        "imageURL": "https://example.com/movie9.jpg",
+        "state": "Available"
+    },
+    {
+        "id": 10,
+        "title": "Broken Hearts",
+        "description": "A gripping drama unfolding",
+        "category": "Drama",
+        "imageURL": "https://example.com/movie10.jpg",
+        "state": "Available"
+    }
+]

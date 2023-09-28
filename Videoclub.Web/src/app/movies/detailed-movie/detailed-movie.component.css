@@ -1,0 +1,105 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+button{
+  border: none;
+  background-color: transparent;
+}
+
+mat-icon {
+  color: var(--text-color);
+}
+
+.hoverable:hover {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.edit-panel {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.movie-details {
+    width: 70%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgb(250, 240, 230, 0.8);
+    border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  
+  .movie-image img {
+    max-width: 100%;
+    width: 350px;
+  }
+
+  .movie-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 350px;
+  }
+
+  .movie-title{
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+
+  }
+  
+  .label{
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-left: 30px;
+  }
+  
+  .available {
+    background-color: #799163;
+   
+  }
+  
+  .not-available {
+    background-color: #AB3131;
+  }
+
+  .action{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-color);
+    padding: 5px;
+    color: var(--text-color);
+    border-radius: 5px;
+    font-weight: 600;
+    width: 80px;
+  }
+
+  .action:hover{
+    background-color: var(--primary-color);
+    cursor: pointer;
+  }
+
+
+

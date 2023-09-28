@@ -1,0 +1,33 @@
+
+
+<div class="wrapper">
+
+  <form class="form-container" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" [(ngModel)]="username">
+  </div>
+  <div class="form-group">
+    <label for="name">First Name:</label>
+    <input type="text" id="name" name="name" [(ngModel)]="name">
+  </div>
+  <div class="form-group">
+    <label for="lastname">Last Name:</label>
+    <input type="text" id="lastname" name="lastname" [(ngModel)]="lastname">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" [(ngModel)]="password">
+  </div>
+  <div class="form-group">
+    <label for="birthday">Birthday:</label>
+    <input type="date" id="birthday" name="birthday" [(ngModel)]="birthdate">
+  </div>
+
+  <p *ngIf="errorString" class="error">Error: {{this.errorString}}</p>
+    
+  <button type="submit">Register</button>
+</form>
+</div>
+
+

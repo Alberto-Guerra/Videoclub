@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Videoclub.API", "Videoclub.API\Videoclub.API.csproj", "{EF6F45C5-785C-4719-9113-7632C171C180}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Videoclub.Web", "Videoclub.Web\Videoclub.Web.esproj", "{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF6F45C5-785C-4719-9113-7632C171C180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6F45C5-785C-4719-9113-7632C171C180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6F45C5-785C-4719-9113-7632C171C180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6F45C5-785C-4719-9113-7632C171C180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E3D9C7-CCA9-4C30-A24D-900B1CAE0698}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4391F09F-D731-46E9-9256-E615F0A9664D}
+	EndGlobalSection
+EndGlobal
