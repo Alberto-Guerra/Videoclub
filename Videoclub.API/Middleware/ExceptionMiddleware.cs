@@ -20,10 +20,10 @@ public class ExceptionMiddleware
         {
             await _next(context);
         }
-        catch (Exception ex) //If any exception is catched, a bad request is thrown with the proper message
+        catch (Exception ex) //if any exception is catched, a bad request is thrown with the proper message
         {
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            context.Response.ContentType = "text/plain";
+            context.Response.ContentType = "text/plain"; //the content type is set to plain text to return only the message
             var errorMessage = ex.Message; 
             await context.Response.WriteAsync(errorMessage);
         }

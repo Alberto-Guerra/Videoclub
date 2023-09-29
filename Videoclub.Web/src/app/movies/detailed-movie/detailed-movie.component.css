@@ -33,23 +33,23 @@ mat-icon {
 
 .movie-details {
     width: 70%;
-    max-width: 800px;
+    max-width: 600px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin: 20px;
     padding: 20px;
-    box-shadow: 0 4px 8px 0 rgb(250, 240, 230, 0.8);
+    border: 1px solid var(--text-color);
     border-radius: 10px;
     flex-wrap: wrap;
     gap: 20px;
+
   }
-  
   
   .movie-image img {
-    max-width: 100%;
-    width: 350px;
+    height: 300px
   }
+
 
   .movie-info{
     display: flex;

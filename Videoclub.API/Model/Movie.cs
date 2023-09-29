@@ -14,6 +14,8 @@ public class Movie
 
     public Category Category { get; set; }
 
+    public int CategoryId { get; set; }
+
     public IEnumerable<RentHistory> RentHistories { get; set; }
 }
 

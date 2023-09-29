@@ -11,7 +11,7 @@ using Videoclub.API.Context;
 namespace Videoclub.API.Migrations
 {
     [DbContext(typeof(VideoclubContext))]
-    [Migration("20230921072528_Initial")]
+    [Migration("20230929100907_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,21 @@ namespace Videoclub.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Videoclub.API.Model.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
 
             modelBuilder.Entity("Videoclub.API.Model.Movie", b =>
                 {
@@ -30,7 +45,7 @@ namespace Videoclub.API.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("Category")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -48,15 +63,17 @@ namespace Videoclub.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("Videoclub.API.Model.RentHistory", b =>
                 {
-                    b.Property<int>("user_id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("movie_id")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RentDate")
@@ -65,9 +82,9 @@ namespace Videoclub.API.Migrations
                     b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("user_id", "movie_id", "RentDate");
+                    b.HasKey("UserId", "MovieId", "RentDate");
 
-                    b.HasIndex("movie_id");
+                    b.HasIndex("MovieId");
 
                     b.ToTable("RentHistories");
                 });
@@ -89,35 +106,46 @@ namespace Videoclub.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
-
-                    b.Property<byte[]>("passwordHash")
-                        .IsRequired()
-                        .HasColumnType("longblob");
-
-                    b.Property<byte[]>("passwordSalt")
-                        .IsRequired()
-                        .HasColumnType("longblob");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Videoclub.API.Model.Movie", b =>
+                {
+                    b.HasOne("Videoclub.API.Model.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Videoclub.API.Model.RentHistory", b =>
                 {
                     b.HasOne("Videoclub.API.Model.Movie", "Movie")
                         .WithMany("RentHistories")
-                        .HasForeignKey("movie_id")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Videoclub.API.Model.User", "User")
                         .WithMany("RentHistories")
-                        .HasForeignKey("user_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

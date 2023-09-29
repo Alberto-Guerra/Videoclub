@@ -9,34 +9,35 @@ import { Movie } from '../movie.model';
 @Component({
   selector: 'app-edit-movie',
   templateUrl: './edit-movie.component.html',
-  styleUrls: ['./edit-movie.component.css']
+  styleUrls: ['./edit-movie.component.css'],
 })
 export class EditMovieComponent {
+  movie: Movie | undefined;
 
-  movie : Movie | undefined;
-
-  constructor(private route : ActivatedRoute, private router : Router, private store : Store<AppState>) { 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store<AppState>
+  ) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    //if the id is not a number, we redirect to the movies page
-    if(isNaN(id)){
+    //if the id is not a number, redirect to the movies page
+    if (isNaN(id)) {
       this.router.navigate(['/movies']);
     }
 
-   
-    //if we didnt load the movies yet, we dispatch the action to load them
+    //if the movies are not loaded, load them
     store.select(MoviesSelectors.moviesLoaded).subscribe((moviesLoaded) => {
       if (!moviesLoaded) {
         this.store.dispatch(MoviesActions.LoadAllMovies());
-      }});
-
-    // we set the movie to edit
-    this.store.select(MoviesSelectors.movieById(id)).subscribe((movie) => {
-      if(movie){
-        this.movie = {...movie};
       }
+    });
 
+    // the movie to edit is selected from the store
+    this.store.select(MoviesSelectors.movieById(id)).subscribe((movie) => {
+      if (movie) {
+        this.movie = { ...movie };
+      }
     });
   }
-
 }

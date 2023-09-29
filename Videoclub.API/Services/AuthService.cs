@@ -11,33 +11,34 @@ public class AuthService : IAuthService
 {
     private readonly IConfiguration _configuration;
 
-    public AuthService (IConfiguration configuration)
+    public AuthService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
-    //Creates the hash of the password with the hmacsha512 algorithm
+    //creates the hash of the password with the hmacsha512 algorithm
     public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512())   
+        using (var hmac = new HMACSHA512())
         {
             passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
     }
-    //Creates a jwt token given an user
+    //creates a jwt token given an user
     public string createToken(User user)
     {
-        List<Claim> claims = new List<Claim>
+        List<Claim> claims = new List<Claim> //creates the claims of the token
         {
             new Claim("name", user.Username),
             new Claim("id", user.Id.ToString()),
         };
 
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)); //Takes secret phrase from appsettings.json
-
+        //takes secret phrase from appsettings.json and creates a key with it
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)); 
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-        
+
+        //creates the token with all the information and also the issuer, audience from appsettings.json
         var token = new JwtSecurityToken(
           claims: claims,
           expires: DateTime.Now.AddDays(1),
@@ -51,7 +52,7 @@ public class AuthService : IAuthService
         return jwt;
     }
 
-    //Computes the hash of the given password and compare it with the stored hash
+    //computes the hash of the given password and compare it with the stored hash
     public void VerifyPassWordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
         using (var hmac = new HMACSHA512(passwordSalt))
@@ -61,7 +62,7 @@ public class AuthService : IAuthService
             {
                 throw new InvalidOperationException("Incorrect Password");
             }
-            
+
         }
     }
 }

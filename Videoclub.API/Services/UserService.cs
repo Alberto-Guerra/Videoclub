@@ -16,26 +16,30 @@ public class UserService : IUserService
         _context = dbContext;
     }
 
+    //returns all the users in the database
     public IEnumerable<User> getAllUsers()
     {
         return _context.Users.ToList();
     }
 
-    //adds the user to the database and saves the changes
-    public void addUser(User user)
+    //checks if the username is available, then saves the password hash and salt and adds the user to the database
+    public void addUser(User user, byte[] passwordHash, byte[] passwordSalt)
     {
         if (UserExist(user.Username))
         {
             throw new InvalidOperationException(" User Already Exist ");
         }
 
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+
         _context.Users.Add(user);
         _context.SaveChanges();
     }
 
 
-    //Returns the user with the username passed as parameter or null in case no user is found
-    public User? getUserByUsername(string username)
+    //returns the user with the username passed as parameter or null in case no user is found
+    public User getUserByUsername(string username)
     {
         if (string.IsNullOrWhiteSpace(username))
         {
@@ -50,15 +54,18 @@ public class UserService : IUserService
         return _context.Users.First(u => u.Username == username);
     }
 
+    //checks if there is a user with the given username
     public bool UserExist(string username) {
         return _context.Users.Any(u => u.Username == username);
     }
 
+    //checks if there is a user with the given id
     public bool UserExist(int id)
     {
         return _context.Users.Any(u => u.Id == id);
     }
 
+    //checks if the user given have all the required fields and if the username is not already taken
     public void checkUserForRegister(UserDTO userDTO)
     {
         if (string.IsNullOrWhiteSpace(userDTO.Username))

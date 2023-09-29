@@ -19,7 +19,7 @@ public class MovieService : IMovieService
     }
 
 
-    // Gets all the movies in the database and then returns them converted to DTO
+    //gets all the movies in the database and then returns them converted to DTO
     public IEnumerable<MovieDTO> GetAllMovies()
     {
         IEnumerable <Movie> movies = _context.Movies.Include(m => m.Category).ToList();
@@ -27,7 +27,7 @@ public class MovieService : IMovieService
         return _dtoService.movieToDtoList(movies);
     }
 
-    // Gets all the categories in the database and then returns them converted to string
+    //gets all the categories in the database and then returns them converted to string
     public IEnumerable<string> GetAllCategories()
     {
         IEnumerable<string> categories = _context.Categories.Select(c => c.Name);
@@ -35,7 +35,7 @@ public class MovieService : IMovieService
         return categories;
     }
 
-    // Check the proper fields and then creates the movie and adds it to the database
+    //check the proper fields and then creates the movie and adds it to the database
     public void AddMovie(MovieDTO movieDTO)
     {
         if (MovieExist(movieDTO.Id))
@@ -54,7 +54,7 @@ public class MovieService : IMovieService
         _context.SaveChanges();
     }
 
-    // Check if the movie with the given id exists, looks for it and then removes it from the database
+    //check if the movie with the given id exists, looks for it and then removes it from the database
     public void DeleteMovie(int movie_id)
     {
         if (!MovieExist(movie_id))
@@ -68,7 +68,7 @@ public class MovieService : IMovieService
 
     }
 
-    // Checks the proper fields then updates them in case they are provided
+    //checks the proper fields then updates them in case they are provided
     public void EditMovie(MovieDTO movieDTO)
     {
         if (!MovieExist(movieDTO.Id))
@@ -88,7 +88,7 @@ public class MovieService : IMovieService
 
         Movie movie = _context.Movies.First(x => x.Id == movieDTO.Id);
 
-        //Use of the ?? operator to copy the value if there is one, or remain the same if there isnt
+        //use of the ?? operator to copy the value if there is one, or remain the same if there isnt
 
         movie.Title = movieDTO.Title ?? movie.Title; 
         movie.Description = movieDTO.Description ?? movie.Description;
@@ -103,28 +103,28 @@ public class MovieService : IMovieService
     }
 
 
-    // Checks the proper fields then creates the history, assign the proper user and movie and saves it in the database
+    //checks the proper fields, gets the movie and the user and then creates a rent history with the given information. It also updates the state of the movie
     public void RentMovie(RentHistoryDTO rentHistoryDTO)
     {
 
-        if (!MovieExist(rentHistoryDTO.movie_id))
+        if (!MovieExist(rentHistoryDTO.MovieId))
         {
             throw new InvalidOperationException("Cannot rent - Movie does not exist");
         }
 
-        if (!_userService.UserExist(rentHistoryDTO.user_id))
+        if (!_userService.UserExist(rentHistoryDTO.UserId))
         {
             throw new InvalidOperationException("Cannot rent - User does not exist");
         }
 
-        if (MovieIsRented(rentHistoryDTO.movie_id))
+        if (MovieIsRented(rentHistoryDTO.MovieId))
         {
             throw new InvalidOperationException("Cannot rent - Movie already rented");
         }
 
-        Movie movie = _context.Movies.First(m => m.Id == rentHistoryDTO.movie_id);
+        Movie movie = _context.Movies.First(m => m.Id == rentHistoryDTO.MovieId);
         movie.Available = false;
-        User user = _context.Users.First(m => m.Id == rentHistoryDTO.user_id);
+        User user = _context.Users.First(m => m.Id == rentHistoryDTO.UserId);
 
         RentHistory history = _dtoService.DtoToRentHistory(rentHistoryDTO);
 
@@ -136,7 +136,7 @@ public class MovieService : IMovieService
         _context.SaveChanges();
     }
 
-    // Checks the proper fields, gets the history of the movie to return, sets returnDate to the actual time and updates the state of the movie
+    //checks the proper fields, gets the history of the movie to return, sets returnDate to the actual time and updates the state of the movie
     public void ReturnMovie(int movie_id)
     {
         if (!MovieExist(movie_id))
@@ -150,7 +150,7 @@ public class MovieService : IMovieService
         }
 
         //We get the first history with no return date and movie_id equals to given id
-        RentHistory history = _context.RentHistories.First(r => r.movie_id == movie_id && r.ReturnDate == null);
+        RentHistory history = _context.RentHistories.First(r => r.MovieId == movie_id && r.ReturnDate == null);
 
         history.ReturnDate = DateTime.Now;
 
@@ -173,7 +173,7 @@ public class MovieService : IMovieService
     //check if the movie with the given id is rented
     public bool MovieIsRented(int movie_id)
     {
-        return _context.RentHistories.AsNoTracking().Any(r => r.movie_id == movie_id && r.ReturnDate == null);
+        return _context.RentHistories.AsNoTracking().Any(r => r.MovieId == movie_id && r.ReturnDate == null);
     }
 
 

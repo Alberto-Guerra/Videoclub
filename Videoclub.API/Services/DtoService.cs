@@ -13,51 +13,51 @@ public class DtoService : IDtoService
     {
         _context = context;
     }
+
+    //converts a movie to a movieDTO
     public MovieDTO MovieToDto(Movie movie)
     {
-        var dto = new MovieDTO();
+        var dto = new MovieDTO
+        {
+            Id = movie.Id,
+            Title = movie.Title,
+            Description = movie.Description,
+            Category = movie.Category.Name,
+            PhotoURL = movie.PhotoURL,
+            State = movie.Available ? Constants.AVAILABLE_STRING : Constants.NOT_AVAILABLE_STRING
+        };
 
-        dto.Id = movie.Id;
-        dto.Title = movie.Title;
-        dto.Description = movie.Description;
-        dto.Category = movie.Category.Name;
-        dto.PhotoURL = movie.PhotoURL;
-        dto.State = movie.Available ? Constants.AVAILABLE_STRING : Constants.NOT_AVAILABLE_STRING;
-
-        //Checks if there is a rent history with null return date
-        var historyIfRented = _context.RentHistories.Include(u => u.User).FirstOrDefault(r => r.ReturnDate == null && r.movie_id == dto.Id); 
+        //checks if there is a rent history with null return date
+        var historyIfRented = _context.RentHistories.Include(u => u.User).FirstOrDefault(r => r.ReturnDate == null && r.MovieId == dto.Id);
         if (historyIfRented != null)
         {
             dto.UsernameRented = historyIfRented.User.Username;
-            dto.Userid = historyIfRented.User.Id;
-            dto.rent_date = historyIfRented.RentDate;
+            dto.UserId = historyIfRented.User.Id;
+            dto.RentDate = historyIfRented.RentDate;
         }
 
         return dto;
 
-
-
-
-
     }
-
+    //converts a movieDTO to a movie
     public Movie DtoToMovie(MovieDTO dto)
     {
-        var movie = new Movie();
-
-        movie.Id = dto.Id;
-        movie.Title = dto.Title;
-        movie.Description = dto.Description;
-        movie.PhotoURL = dto.PhotoURL;
-        movie.Available = dto.State == Constants.AVAILABLE_STRING;
-        movie.RentHistories = _context.RentHistories.Where(r => r.movie_id == movie.Id);
-
-        movie.Category = _context.Categories.First(c  => c.Name == dto.Category);
+        var movie = new Movie
+        {
+            Id = dto.Id,
+            Title = dto.Title,
+            Description = dto.Description,
+            PhotoURL = dto.PhotoURL,
+            Available = dto.State == Constants.AVAILABLE_STRING
+        };
+        movie.RentHistories = _context.RentHistories.Where(r => r.MovieId == movie.Id);
+        movie.Category = _context.Categories.First(c => c.Name == dto.Category);
 
         return movie;
 
     }
 
+    //converts a list of movies to a list of movieDTOs calling the movieToDto method
     public IEnumerable<MovieDTO> movieToDtoList(IEnumerable<Movie> dtoList)
     {
         List<MovieDTO> dtos = new List<MovieDTO>();
@@ -70,52 +70,57 @@ public class DtoService : IDtoService
         return dtos;
     }
 
+    //converts a userDTO to a user
     public User DtoToUser(UserDTO dto)
     {
-        User user = new User();
+        User user = new User
+        {
+            Username = dto.Username,
+            Name = dto.Name,
+            LastName = dto.LastName,
+            Birthday = dto.Birthday
+        };
 
-        user.Username = dto.Username;
-        user.Name = dto.Name;
-        user.LastName = dto.LastName;
-        user.Birthday = dto.Birthday;
-
-        user.RentHistories = _context.RentHistories.Where(r => r.user_id  == user.Id);
+        user.RentHistories = _context.RentHistories.Where(r => r.UserId == user.Id);
 
         return user;
     }
-
+    //converts a user to a userDTO
     public UserDTO UserToDto(User user)
     {
-        UserDTO dto = new UserDTO();
-
-        dto.Username = user.Username;
-        dto.Name = user.Name;
-        dto.LastName = user.LastName;
-        dto.Birthday = user.Birthday;
+        UserDTO dto = new UserDTO
+        {
+            Username = user.Username,
+            Name = user.Name,
+            LastName = user.LastName,
+            Birthday = user.Birthday
+        };
 
         return dto;
     }
-
+    //converts a RentHistory to a RentHistoryDTO
     public RentHistoryDTO RentHistoryToDto(RentHistory history)
     {
-        RentHistoryDTO dto = new RentHistoryDTO();
-        
-        dto.RentDate = history.RentDate;
-        dto.user_id = history.user_id;
-        dto.movie_id = history.movie_id;
-        dto.ReturnDate = history.ReturnDate;
+        RentHistoryDTO dto = new RentHistoryDTO
+        {
+            RentDate = history.RentDate,
+            UserId = history.UserId,
+            MovieId = history.MovieId,
+            ReturnDate = history.ReturnDate
+        };
 
         return dto;
 
 
     }
-
+    //converts a RentHistoryDTO to a RentHistory
     public RentHistory DtoToRentHistory(RentHistoryDTO dto)
     {
-        RentHistory history = new RentHistory();
-
-        history.ReturnDate = dto.ReturnDate;
-        history.RentDate = dto.RentDate;
+        RentHistory history = new RentHistory
+        {
+            ReturnDate = dto.ReturnDate,
+            RentDate = dto.RentDate
+        };
 
         return history;
 

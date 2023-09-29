@@ -10,8 +10,8 @@ public class User
 
     public string Username { get; set; }
 
-    public byte[] passwordHash { get; set; }
-    public byte[] passwordSalt { get; set; }
+    public byte[] PasswordHash { get; set; }
+    public byte[] PasswordSalt { get; set; }
 
     public DateTime Birthday { get; set; }
 

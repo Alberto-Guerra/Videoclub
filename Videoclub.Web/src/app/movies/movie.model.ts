@@ -6,16 +6,20 @@ export interface Movie {
     category : string;
     photoURL : string;
     state : string;
-    rent_date? : Date;
-    userid? : number;
+    rentDate? : Date;
+    userId? : number;
     usernameRented? : string;
 
 }
 
 export interface RentHistory {
-    movie_id : number;
-    user_id : number;
+    movieId : number;
+    userId : number;
 
     rentDate : string;
     returnDate : string | null;
 }
+
+export const ALL_CATEGORIES = "All";
+export const ALL_STATES = "All";
+export const ALL_TEXT_TO_FIND = "";

@@ -12,15 +12,15 @@ public class MovieDTO
 
     public string PhotoURL { get; set; }
 
-    public string State { get; set; } = "Available";
+    public string State { get; set; }
 
     public string Category { get; set; }
 
-    public DateTime? rent_date { get; set; }
+    public DateTime? RentDate { get; set; }
 
     public string? UsernameRented { get; set; }
 
-    public int? Userid { get; set; }
+    public int? UserId { get; set; }
 
 
 }

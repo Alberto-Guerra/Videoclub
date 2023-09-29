@@ -37,13 +37,9 @@ public class UsersController : Controller
         _userService.checkUserForRegister(userDTO);
 
         _authService.CreatePasswordHash(userDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        var user = _dtoService.DtoToUser(userDTO);  
 
-        var user = _dtoService.DtoToUser(userDTO);
-        
-        user.passwordHash = passwordHash;
-        user.passwordSalt = passwordSalt;
-
-        _userService.addUser(user);
+        _userService.addUser(user, passwordHash, passwordSalt);
 
         return Ok(user.Username);
 
@@ -53,9 +49,9 @@ public class UsersController : Controller
     public ActionResult<string> Login([FromBody] UserDTO userDTO)
     {
 
-        User? user = _userService.getUserByUsername(userDTO.Username);
+        User user = _userService.getUserByUsername(userDTO.Username);
 
-        _authService.VerifyPassWordHash(userDTO.Password, user.passwordHash, user.passwordSalt);
+        _authService.VerifyPassWordHash(userDTO.Password, user.PasswordHash, user.PasswordSalt);
 
         string token = _authService.createToken(user);
            

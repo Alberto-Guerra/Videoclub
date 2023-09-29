@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Videoclub.API.Context;
 
@@ -10,9 +11,10 @@ using Videoclub.API.Context;
 namespace Videoclub.API.Migrations
 {
     [DbContext(typeof(VideoclubContext))]
-    partial class VideoclubContextModelSnapshot : ModelSnapshot
+    [Migration("20230929102115_CategorySeeding")]
+    partial class CategorySeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,44 +93,6 @@ namespace Videoclub.API.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Movies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Available = true,
-                            CategoryId = 3,
-                            Description = "Some people are in prison and they try to scape",
-                            PhotoURL = "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_FMjpg_UX1000_.jpg",
-                            Title = "The Shawshank Redemption"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Available = true,
-                            CategoryId = 1,
-                            Description = "Oscar DiCaprio is in the woods and he is cold",
-                            PhotoURL = "https://m.media-amazon.com/images/M/MV5BMDE5OWMzM2QtOTU2ZS00NzAyLWI2MDEtOTRlYjIxZGM0OWRjXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg",
-                            Title = "The Revenant"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Available = true,
-                            CategoryId = 3,
-                            Description = "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-                            PhotoURL = "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg",
-                            Title = "The Godfather"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Available = true,
-                            CategoryId = 1,
-                            Description = "Some guys fight",
-                            PhotoURL = "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg",
-                            Title = "Fight Club"
-                        });
                 });
 
             modelBuilder.Entity("Videoclub.API.Model.RentHistory", b =>

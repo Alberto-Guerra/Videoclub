@@ -16,7 +16,7 @@
                 <p class="label" [ngClass]="movie.state === 'Available' ? 'available' : 'not-available'">{{movie.state}}</p>
                 
             </div>
-            <p *ngIf="movie.state !== 'Available'">{{getRentedText(movie)}} {{movie.rent_date | date:'medium'}}</p>
+            <p *ngIf="movie.state !== 'Available'">{{getRentedText(movie)}} {{movie.rentDate | date:'medium'}}</p>
             <div class="edit-panel">
               <button (click)="editMovie(movie)" *ngIf="editMode"><mat-icon class="hoverable" fontIcon="edit"></mat-icon></button>
               <button (click)="deleteMovie(movie)" *ngIf="editMode"><mat-icon class="hoverable" fontIcon="delete"></mat-icon></button>

@@ -26,6 +26,7 @@ export class AuthBarComponent {
 
   constructor(private store: Store<AppState>, private router : Router) {
 
+    //subscribe to the store to get the username and the user id
     store.select(AuthSelectors.username).subscribe((username) => {
       this.username = username;
     });
@@ -37,6 +38,7 @@ export class AuthBarComponent {
 
   ngOnInit(): void {
 
+    //subscribe to the store to get the edit mode and the authentication status
     this.store.select(AuthSelectors.isAuthenticated).subscribe((isAuthenticated) => {
       this.isAuthenticated = isAuthenticated;
     });
@@ -46,14 +48,15 @@ export class AuthBarComponent {
     });
   }
 
+  //dispatch the action to toggle the edit mode
   toggleEditMode() {
     this.store.dispatch(MoviesActions.toggleEditMode());
   }
 
+  //dispatch the action to logout the user then sets the edit mode to false and navigate to the movies page
   logout() {
     this.store.dispatch(AuthActions.logout());
-    //in case we are in edit mode when doing logout, we need to toggle it off
-    if(this.editMode){
+    if(this.editMode){ //in case we are in edit mode when doing logout, we need to toggle it off
       this.store.dispatch(MoviesActions.toggleEditMode());
     }
     this.router.navigate(['/movies']);

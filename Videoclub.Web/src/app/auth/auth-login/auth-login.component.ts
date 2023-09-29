@@ -9,7 +9,7 @@ import { Actions, ofType } from '@ngrx/effects';
 @Component({
   selector: 'app-auth-login',
   templateUrl: './auth-login.component.html',
-  styleUrls: ['./auth-login.component.css']
+  styleUrls: ['./auth-login.component.css'],
 })
 export class AuthLoginComponent {
   username: string = '';
@@ -17,14 +17,20 @@ export class AuthLoginComponent {
 
   errorString: string = '';
 
-  constructor(private store : Store<AppState>, private router : Router, private actions$ : Actions) {
-
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private actions$: Actions
+  ) {
     this.store.dispatch(AuthActions.clearError());
-   }
+  }
 
+  //on submit, dispatch the action to login the user
   onSubmit() {
-    this.store.dispatch(AuthActions.loginStart({user : this.username, password : this.password}));
-  
+    this.store.dispatch(
+      AuthActions.loginStart({ user: this.username, password: this.password })
+    );
+
     //In case of error, display the error message
     this.actions$.pipe(ofType(AuthActions.loginFail)).subscribe((action) => {
       this.errorString = action.error;
@@ -34,7 +40,5 @@ export class AuthLoginComponent {
     this.actions$.pipe(ofType(AuthActions.loginSuccess)).subscribe(() => {
       this.router.navigate(['/movies']);
     });
-
   }
-
 }

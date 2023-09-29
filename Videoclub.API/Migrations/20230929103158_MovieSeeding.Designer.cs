@@ -11,8 +11,8 @@ using Videoclub.API.Context;
 namespace Videoclub.API.Migrations
 {
     [DbContext(typeof(VideoclubContext))]
-    [Migration("20230926101207_CategoryChange")]
-    partial class CategoryChange
+    [Migration("20230929103158_MovieSeeding")]
+    partial class MovieSeeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,33 @@ namespace Videoclub.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Thriller"
+                        });
                 });
 
             modelBuilder.Entity("Videoclub.API.Model.Movie", b =>
@@ -66,14 +93,52 @@ namespace Videoclub.API.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Available = true,
+                            CategoryId = 3,
+                            Description = "Some people are in prison and they try to scape",
+                            PhotoURL = "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_FMjpg_UX1000_.jpg",
+                            Title = "The Shawshank Redemption"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Available = true,
+                            CategoryId = 1,
+                            Description = "Oscar DiCaprio is in the woods and he is cold",
+                            PhotoURL = "https://m.media-amazon.com/images/M/MV5BMDE5OWMzM2QtOTU2ZS00NzAyLWI2MDEtOTRlYjIxZGM0OWRjXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg",
+                            Title = "The Revenant"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Available = true,
+                            CategoryId = 3,
+                            Description = "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+                            PhotoURL = "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg",
+                            Title = "The Godfather"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Available = true,
+                            CategoryId = 1,
+                            Description = "Some guys fight",
+                            PhotoURL = "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg",
+                            Title = "Fight Club"
+                        });
                 });
 
             modelBuilder.Entity("Videoclub.API.Model.RentHistory", b =>
                 {
-                    b.Property<int>("user_id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("movie_id")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RentDate")
@@ -82,9 +147,9 @@ namespace Videoclub.API.Migrations
                     b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("user_id", "movie_id", "RentDate");
+                    b.HasKey("UserId", "MovieId", "RentDate");
 
-                    b.HasIndex("movie_id");
+                    b.HasIndex("MovieId");
 
                     b.ToTable("RentHistories");
                 });
@@ -106,18 +171,18 @@ namespace Videoclub.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
-
-                    b.Property<byte[]>("passwordHash")
-                        .IsRequired()
-                        .HasColumnType("longblob");
-
-                    b.Property<byte[]>("passwordSalt")
-                        .IsRequired()
-                        .HasColumnType("longblob");
 
                     b.HasKey("Id");
 
@@ -139,13 +204,13 @@ namespace Videoclub.API.Migrations
                 {
                     b.HasOne("Videoclub.API.Model.Movie", "Movie")
                         .WithMany("RentHistories")
-                        .HasForeignKey("movie_id")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Videoclub.API.Model.User", "User")
                         .WithMany("RentHistories")
-                        .HasForeignKey("user_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
