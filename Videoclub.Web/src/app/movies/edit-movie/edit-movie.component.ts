@@ -5,6 +5,8 @@ import { AppState } from 'src/app/store/app.state';
 import * as MoviesSelectors from '../store/movies.selectors';
 import * as MoviesActions from '../store/movies.actions';
 import { Movie } from '../movie.model';
+import { Actions, ofType } from '@ngrx/effects';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-edit-movie',
@@ -13,11 +15,15 @@ import { Movie } from '../movie.model';
 })
 export class EditMovieComponent {
   movie: Movie | undefined;
+  categories: string[] = [];
+  private unsubscribe$: Subject<void> = new Subject<void>();
+  errorString: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private actions$: Actions
   ) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -39,5 +45,50 @@ export class EditMovieComponent {
         this.movie = { ...movie };
       }
     });
+
+    //the categories are loaded from the store
+    this.store.select(MoviesSelectors.categories).subscribe((categories) => {
+      this.categories = categories;
+    });
+
+    this.store
+      .select(MoviesSelectors.editMode)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((editMode) => {
+        if (!editMode) {
+          this.router.navigate(['/movies']);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  //action to create or update the movie is dispatched on sumbit
+  onSubmit() {
+    this.store.dispatch(
+      MoviesActions.UpdateMovie({ movie: { ...this.movie! } })
+    );
+
+    //in case of error the error message is displayed
+    this.actions$
+      .pipe(ofType(MoviesActions.UpdateMovieFail))
+      .subscribe((action) => {
+        this.errorString = action.error;
+      });
+
+    //in case of success, redirect to the detailed movie page
+    this.actions$
+      .pipe(ofType(MoviesActions.UpdateMovieSuccess))
+      .subscribe(() => {
+        this.router.navigate(['/movies', this.movie!.id]);
+      });
+  }
+
+  //go back one step
+  goBack() {
+    this.router.navigate(['/movies', this.movie!.id]);
   }
 }

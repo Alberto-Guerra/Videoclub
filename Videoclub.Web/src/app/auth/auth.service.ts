@@ -4,7 +4,6 @@ import { environment } from 'src/enviroments/enviroment';
 import { UserDto } from './auth.model';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
@@ -100,7 +99,6 @@ export class AuthService {
 
     if (tokenFromStorage) {
       if (!this.isTokenExpired(tokenFromStorage)) {
-
         this.store.dispatch(AuthActions.autoLogin({ token: tokenFromStorage })); //If it is not expired, dispatch the autoLogin action
         this.token = tokenFromStorage;
       }
@@ -110,7 +108,8 @@ export class AuthService {
   //check if the token is expired
   private isTokenExpired(token: string): boolean {
     const decodedToken: any = jwt_decode(token);
-    if (decodedToken && decodedToken.exp) { //check if the token is valid and has an expiration time
+    if (decodedToken && decodedToken.exp) {
+      //check if the token is valid and has an expiration time
       const expirationTime = decodedToken.exp * 1000; //convert to milliseconds
       const currentTime = Date.now(); //get the current time in milliseconds
       return expirationTime < currentTime; //if the expiration time is less than the current time, the token is expired

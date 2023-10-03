@@ -36,7 +36,7 @@
         
     </div>
     <div class="movieList">
-        <a *ngFor="let movie of Movies" [routerLink]="['/movies', movie.id]">
+        <a *ngFor="let movie of movies" [routerLink]="['/movies', movie.id]">
             <div class="card">
                 <div class="card-img">
                     <img src="{{movie.photoURL}}">

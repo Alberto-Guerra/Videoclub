@@ -12,11 +12,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./all-movies.component.css'],
 })
 export class AllMoviesComponent {
-  Movies: Movie[] = [];
+  movies: Movie[] = [];
   editMode = false;
-
   categories: string[] = [];
-
   textToFind: string = '';
   categoryToFilter: string = 'All';
   stateToFilter: string = 'All';
@@ -58,7 +56,7 @@ export class AllMoviesComponent {
 
     store.dispatch(MoviesActions.FilterMovies());
     store.select(MoviesSelectors.filteredMovies).subscribe((movies) => {
-      this.Movies = movies;
+      this.movies = movies;
     });
 
     //then subscribe to the store to get the edit mode

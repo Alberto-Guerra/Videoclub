@@ -14,16 +14,20 @@ namespace Videoclub.API.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Movies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Title = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    PhotoURL = table.Column<string>(type: "longtext", nullable: false),
+                    Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Movies", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -36,8 +40,8 @@ namespace Videoclub.API.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Username = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "longblob", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "longblob", nullable: false),
+                    passwordHash = table.Column<byte[]>(type: "longblob", nullable: false),
+                    passwordSalt = table.Column<byte[]>(type: "longblob", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -47,50 +51,26 @@ namespace Videoclub.API.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: false),
-                    PhotoURL = table.Column<string>(type: "longtext", nullable: false),
-                    Available = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Movies_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "RentHistories",
                 columns: table => new
                 {
                     RentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    movie_id = table.Column<int>(type: "int", nullable: false),
+                    user_id = table.Column<int>(type: "int", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RentHistories", x => new { x.UserId, x.MovieId, x.RentDate });
+                    table.PrimaryKey("PK_RentHistories", x => new { x.user_id, x.movie_id, x.RentDate });
                     table.ForeignKey(
-                        name: "FK_RentHistories_Movies_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_RentHistories_Movies_movie_id",
+                        column: x => x.movie_id,
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RentHistories_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_RentHistories_Users_user_id",
+                        column: x => x.user_id,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -98,14 +78,9 @@ namespace Videoclub.API.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_CategoryId",
-                table: "Movies",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RentHistories_MovieId",
+                name: "IX_RentHistories_movie_id",
                 table: "RentHistories",
-                column: "MovieId");
+                column: "movie_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -118,9 +93,6 @@ namespace Videoclub.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
         }
     }
 }

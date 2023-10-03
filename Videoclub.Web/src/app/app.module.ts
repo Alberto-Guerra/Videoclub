@@ -1,5 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
-
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,9 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,16 +22,16 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     EffectsModule.forRoot([]),
     StoreModule.forRoot(appReducers, {}),
-      EffectsModule.forRoot([]),
-      StoreDevtoolsModule.instrument({
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
       maxAge: 25,
-      }),
-      MatSlideToggleModule,
-      CommonModule,
-      FormsModule,
-      AuthModule,
+    }),
+    MatSlideToggleModule,
+    CommonModule,
+    FormsModule,
+    AuthModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

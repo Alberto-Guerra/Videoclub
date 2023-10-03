@@ -8,7 +8,6 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
   title = 'Videoclub.UI';
-
   editMode = false;
 
   constructor(authService: AuthService) {

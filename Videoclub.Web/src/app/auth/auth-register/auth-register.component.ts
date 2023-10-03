@@ -4,8 +4,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import * as AuthActions from '../store/auth.actions';
 import { UserDto } from '../auth.model';
-import * as AuthSelectors from '../store/auth.selectors';
-import { Observable, takeWhile } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
@@ -21,9 +19,8 @@ export class AuthRegisterComponent {
     lastname: '',
     birthdate: new Date(),
   };
-
   errorString: string = '';
-
+  
   constructor(
     private store: Store<AppState>,
     private router: Router,

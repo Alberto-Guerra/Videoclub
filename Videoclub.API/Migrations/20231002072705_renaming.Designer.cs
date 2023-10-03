@@ -11,8 +11,8 @@ using Videoclub.API.Context;
 namespace Videoclub.API.Migrations
 {
     [DbContext(typeof(VideoclubContext))]
-    [Migration("20230929103158_MovieSeeding")]
-    partial class MovieSeeding
+    [Migration("20231002072705_renaming")]
+    partial class renaming
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -172,11 +172,9 @@ namespace Videoclub.API.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("Username")

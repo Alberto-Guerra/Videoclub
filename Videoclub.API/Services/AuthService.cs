@@ -17,7 +17,11 @@ public class AuthService : IAuthService
     }
 
     //creates the hash of the password with the hmacsha512 algorithm
-    public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    public void CreatePasswordHash(
+        string password,
+        out byte[] passwordHash,
+        out byte[] passwordSalt
+    )
     {
         using (var hmac = new HMACSHA512())
         {
@@ -25,30 +29,29 @@ public class AuthService : IAuthService
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
     }
+
     //creates a jwt token given an user
-    public string createToken(User user)
+    public string CreateToken(User user)
     {
         List<Claim> claims = new List<Claim> //creates the claims of the token
         {
             new Claim("name", user.Username),
             new Claim("id", user.Id.ToString()),
         };
-
         //takes secret phrase from appsettings.json and creates a key with it
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)); 
+        var key = new SymmetricSecurityKey(
+            System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
+        );
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
         //creates the token with all the information and also the issuer, audience from appsettings.json
         var token = new JwtSecurityToken(
-          claims: claims,
-          expires: DateTime.Now.AddDays(1),
-          issuer: _configuration.GetSection("AppSettings:Issuer").Value,
-          audience: _configuration.GetSection("AppSettings:Audiencie").Value,
-          signingCredentials: cred
+            claims: claims,
+            expires: DateTime.Now.AddDays(1),
+            issuer: _configuration.GetSection("AppSettings:Issuer").Value,
+            audience: _configuration.GetSection("AppSettings:Audiencie").Value,
+            signingCredentials: cred
         );
-
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
         return jwt;
     }
 
@@ -62,7 +65,6 @@ public class AuthService : IAuthService
             {
                 throw new InvalidOperationException("Incorrect Password");
             }
-
         }
     }
 }

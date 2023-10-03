@@ -1,1 +1,37 @@
-<app-form-movie [movieInput]="movie" [newMovie]="false"> </app-form-movie>
+<div class="wrapper">
+    <div class="general-container">
+      <div class="img-container">
+        <h2>Image: </h2>
+        <img [src]="movie!.photoURL" class="img-fluid">
+      </div>
+      
+        
+        <form class="form-container" (ngSubmit)="onSubmit()" #editMovieForm="ngForm" *ngIf="movie != undefined; else notFound">
+          <h2> <button (click)="goBack()" ><mat-icon class="hoverable"  fontIcon="arrow_back_ios"></mat-icon></button> Edit Movie</h2>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" [(ngModel)]="movie!.title" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" [(ngModel)]="movie!.description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" name="category" [(ngModel)]="movie!.category" required>
+              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="imageURL">Image URL</label>
+            <input type="text" class="form-control" id="imageURL" name="imageURL" [(ngModel)]="movie!.photoURL" required>
+          </div>
+          <p *ngIf="errorString" class="error">Error: {{this.errorString}}</p>
+          <button class="main-btn" type="submit" [disabled]="editMovieForm.invalid">Save</button>
+        </form>
+    
+        <ng-template #notFound>
+          <h2>Movie not found</h2>
+        </ng-template>
+    </div>
+  </div>

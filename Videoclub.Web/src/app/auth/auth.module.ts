@@ -13,14 +13,8 @@ import { moviesReducers } from '../movies/store/movies.reducers';
 import { RouterModule } from '@angular/router';
 import { AuthRoutingModule } from './auth-routing.module';
 
-
-
 @NgModule({
-  declarations: [
-    AuthBarComponent,
-    AuthLoginComponent,
-    AuthRegisterComponent
-  ],
+  declarations: [AuthBarComponent, AuthLoginComponent, AuthRegisterComponent],
   imports: [
     CommonModule,
     MatSlideToggleModule,
@@ -29,10 +23,8 @@ import { AuthRoutingModule } from './auth-routing.module';
     StoreModule.forFeature('auth', authReducers),
     StoreModule.forFeature('movies', moviesReducers),
     EffectsModule.forFeature([AuthEffects]),
-    RouterModule
+    RouterModule,
   ],
-  exports: [
-    AuthBarComponent
-  ]
+  exports: [AuthBarComponent],
 })
-export class AuthModule { }
+export class AuthModule {}

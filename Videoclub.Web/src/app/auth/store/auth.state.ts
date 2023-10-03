@@ -1,15 +1,9 @@
-
-
 export interface AuthState {
-
-    isAuthenticated: boolean;
-    username?: string;
-    userId?: string;
-
-    
+  isAuthenticated: boolean;
+  username?: string;
+  userId?: string;
 }
 
 export const initialState: AuthState = {
-    isAuthenticated: false,
-
-}
+  isAuthenticated: false,
+};

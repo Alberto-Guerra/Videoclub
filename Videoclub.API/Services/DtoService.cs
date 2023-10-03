@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Videoclub.API.Context;
-using Videoclub.API.DTOs;
+﻿using Videoclub.API.DTOs;
 using Videoclub.API.Model;
 using Videoclub.API.Services.Interfaces;
 
@@ -8,10 +6,13 @@ namespace Videoclub.API.Services;
 
 public class DtoService : IDtoService
 {
-    private VideoclubContext _context;
-    public DtoService(VideoclubContext context)
+    private IRentHistoryService _historyService;
+    private ICategoryService _categoryService;
+
+    public DtoService(IRentHistoryService historyService, ICategoryService categoryService)
     {
-        _context = context;
+        _historyService = historyService;
+        _categoryService = categoryService;
     }
 
     //converts a movie to a movieDTO
@@ -24,21 +25,14 @@ public class DtoService : IDtoService
             Description = movie.Description,
             Category = movie.Category.Name,
             PhotoURL = movie.PhotoURL,
-            State = movie.Available ? Constants.AVAILABLE_STRING : Constants.NOT_AVAILABLE_STRING
+            State = movie.Available ? Constants.AVAILABLE_STRING : Constants.NOT_AVAILABLE_STRING,
+            UserId = _historyService.GetUserIdFromMovieId(movie.Id),
+            UsernameRented = _historyService.GetUsernameFromMovieId(movie.Id),
+            RentDate = _historyService.GetRentDateFromMovieId(movie.Id)
         };
-
-        //checks if there is a rent history with null return date
-        var historyIfRented = _context.RentHistories.Include(u => u.User).FirstOrDefault(r => r.ReturnDate == null && r.MovieId == dto.Id);
-        if (historyIfRented != null)
-        {
-            dto.UsernameRented = historyIfRented.User.Username;
-            dto.UserId = historyIfRented.User.Id;
-            dto.RentDate = historyIfRented.RentDate;
-        }
-
         return dto;
-
     }
+
     //converts a movieDTO to a movie
     public Movie DtoToMovie(MovieDTO dto)
     {
@@ -48,25 +42,21 @@ public class DtoService : IDtoService
             Title = dto.Title,
             Description = dto.Description,
             PhotoURL = dto.PhotoURL,
-            Available = dto.State == Constants.AVAILABLE_STRING
+            Available = dto.State == Constants.AVAILABLE_STRING,
+            RentHistories = _historyService.GetByMovieId(dto.Id),
+            Category = _categoryService.GetCategoryByName(dto.Category)
         };
-        movie.RentHistories = _context.RentHistories.Where(r => r.MovieId == movie.Id);
-        movie.Category = _context.Categories.First(c => c.Name == dto.Category);
-
         return movie;
-
     }
 
     //converts a list of movies to a list of movieDTOs calling the movieToDto method
     public IEnumerable<MovieDTO> movieToDtoList(IEnumerable<Movie> dtoList)
     {
         List<MovieDTO> dtos = new List<MovieDTO>();
-
         foreach (Movie movie in dtoList)
         {
             dtos.Add(MovieToDto(movie));
         }
-
         return dtos;
     }
 
@@ -80,11 +70,9 @@ public class DtoService : IDtoService
             LastName = dto.LastName,
             Birthday = dto.Birthday
         };
-
-        user.RentHistories = _context.RentHistories.Where(r => r.UserId == user.Id);
-
         return user;
     }
+
     //converts a user to a userDTO
     public UserDTO UserToDto(User user)
     {
@@ -95,9 +83,9 @@ public class DtoService : IDtoService
             LastName = user.LastName,
             Birthday = user.Birthday
         };
-
         return dto;
     }
+
     //converts a RentHistory to a RentHistoryDTO
     public RentHistoryDTO RentHistoryToDto(RentHistory history)
     {
@@ -108,11 +96,9 @@ public class DtoService : IDtoService
             MovieId = history.MovieId,
             ReturnDate = history.ReturnDate
         };
-
         return dto;
-
-
     }
+
     //converts a RentHistoryDTO to a RentHistory
     public RentHistory DtoToRentHistory(RentHistoryDTO dto)
     {
@@ -121,8 +107,6 @@ public class DtoService : IDtoService
             ReturnDate = dto.ReturnDate,
             RentDate = dto.RentDate
         };
-
         return history;
-
     }
 }

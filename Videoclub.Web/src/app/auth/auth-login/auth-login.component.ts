@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import * as AuthActions from '../store/auth.actions';
-import * as AuthSelectors from '../store/auth.selectors';
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -14,7 +13,6 @@ import { Actions, ofType } from '@ngrx/effects';
 export class AuthLoginComponent {
   username: string = '';
   password: string = '';
-
   errorString: string = '';
 
   constructor(
