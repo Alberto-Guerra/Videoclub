@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Videoclub.API.Context;
 using Videoclub.API.DTOs;
 using Videoclub.API.Model;
 using Videoclub.API.Services.Interfaces;
